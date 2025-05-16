@@ -1,8 +1,8 @@
 export type OrderedItem = {
   menuId: string;
+  quantity: number;
   name: string;
   price: number;
-  quantity: number;
 };
 
 export type Order = {

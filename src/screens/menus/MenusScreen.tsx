@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { FlatList, Pressable, View } from "react-native";
+import { Alert, FlatList, Pressable, View } from "react-native";
 import { useMenus } from "../../api/queries/useMenus";
 import { textStyles } from "../../themes/textStyles";
 import { colors } from "../../themes/colors";
@@ -10,12 +10,14 @@ import { Text } from "../../components/Typography/Text";
 import { useMenuStore } from "../../store/useMenuStore";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MenuNavigatorParamList } from "../../navigation/MenuNavigator";
-import { FilledButton } from "../../components/Button/FilledButton";
+import { useOrderStore } from "../../store/useOrderStore";
+import { Menu } from "../../types/Menu";
 
 export const MenusScreen = ({
   navigation,
 }: NativeStackScreenProps<MenuNavigatorParamList, "Menus">) => {
-  const { menus, setMenus } = useMenuStore();
+  const { menus, setMenus, updateMenuQty } = useMenuStore();
+  const { addItemToCurrentOrder } = useOrderStore();
   const { data, isLoading, error } = useMenus();
 
   useEffect(() => {
@@ -28,6 +30,17 @@ export const MenusScreen = ({
     () => [...menus].sort((a, b) => a.name.localeCompare(b.name)),
     [menus]
   );
+
+  const handleAddToOrder = (menu: Menu) => {
+    try {
+      addItemToCurrentOrder(menu);
+      updateMenuQty(menu.id, 1);
+
+      Alert.alert(`${menu.name} is added to the order`);
+    } catch (error) {
+      Alert.alert(`Error in adding menu: \n ${error}}`);
+    }
+  };
 
   if (isLoading)
     return (
@@ -82,7 +95,12 @@ export const MenusScreen = ({
               {availableOrderQty > 0 && (
                 <IconButton
                   icon={
-                    <AntDesign name="plus" size={16} color={colors.white} />
+                    <AntDesign
+                      name="plus"
+                      size={16}
+                      color={colors.white}
+                      onPress={() => handleAddToOrder(item)}
+                    />
                   }
                 />
               )}

@@ -1,27 +1,71 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
-import { Order } from "../types/Order";
+import { Order, OrderedItem } from "../types/Order";
+import { Menu } from "../types/Menu";
 
 type OrderStore = {
-  orders: Order[];
+  orderHistory: Order[];
+  currentOrderItems: OrderedItem[];
+
+  // Order history methods
   getOrder: (id: string) => Order | undefined;
-  setOrders: (orders: Order[]) => void;
-  addOrder: (order: Omit<Order, "id" | "timestamp">) => void;
+  setOrderHistory: (orders: Order[]) => void;
+  addOrderToHistory: (order: Omit<Order, "id" | "timestamp">) => void;
+
+  // Current order methods
+  addItemToCurrentOrder: (menu: Menu) => void;
+  removeItemFromCurrentOrder: (menuId: string) => void;
+  clearCurrentOrder: () => void;
 };
 
 export const useOrderStore = create<OrderStore>((set, get) => ({
-  orders: [],
-  getOrder: (id) => get().orders.find((order) => order.id === id),
-  setOrders: (orders) => set({ orders }),
-  addOrder: (order) =>
+  orderHistory: [],
+  currentOrderItems: [],
+
+  getOrder: (id) => get().orderHistory.find((order) => order.id === id),
+  setOrderHistory: (orders) => set({ orderHistory: orders }),
+
+  addOrderToHistory: (order) =>
     set((state) => ({
-      orders: [
-        ...state.orders,
+      orderHistory: [
+        ...state.orderHistory,
         {
           ...order,
           id: uuidv4(),
           timestamp: new Date(),
         },
       ],
+      currentOrderItems: [],
     })),
+
+  addItemToCurrentOrder: (menu: Menu) => {
+    const items = get().currentOrderItems;
+    const index = items.findIndex((item) => item.menuId === menu.id);
+
+    if (index === -1) {
+      set({
+        currentOrderItems: [
+          ...items,
+          { menuId: menu.id, quantity: 1, name: menu.name, price: menu.price },
+        ],
+      });
+    } else {
+      const updated = items.map((item) =>
+        item.menuId === menu.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      set({ currentOrderItems: updated });
+    }
+  },
+
+  removeItemFromCurrentOrder: (menuId) => {
+    set({
+      currentOrderItems: get().currentOrderItems.filter(
+        (item) => item.menuId !== menuId
+      ),
+    });
+  },
+
+  clearCurrentOrder: () => set({ currentOrderItems: [] }),
 }));

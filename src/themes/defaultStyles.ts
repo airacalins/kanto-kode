@@ -25,6 +25,11 @@ export const defaultStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  flexRowCenter: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
   flexRowSpaceBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -62,6 +67,14 @@ export const defaultStyles = StyleSheet.create({
   },
   pl16: {
     paddingLeft: 16,
+  },
+  tableHeader: {
+    backgroundColor: colors.dark,
+    borderTopStartRadius: 16,
+    borderTopRightRadius: 16,
+    flexDirection: "row",
+    height: 32,
+    alignItems: "center",
   },
   footer: {
     bottom: 0,

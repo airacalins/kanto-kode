@@ -8,26 +8,27 @@ import { textStyles } from "../../themes/textStyles";
 import { formatTimestamp } from "../../utils/dateUtils";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OrderNavigatorParamList } from "../../navigation/OrderNavigator";
+import { OrderedItem } from "../../types/Order";
 
 export const OrderHistoryScreen = ({
   navigation,
 }: NativeStackScreenProps<OrderNavigatorParamList, "OrderHistory">) => {
-  const { orders, setOrders } = useOrderStore();
+  const { orderHistory, setOrderHistory } = useOrderStore();
   const { data, isLoading, error } = useOrders();
 
   useEffect(() => {
     if (data && data.length > 0) {
-      setOrders(data);
+      setOrderHistory(data);
     }
-  }, [data, setOrders]);
+  }, [data, setOrderHistory]);
 
   const sortedOrders = useMemo(
     () =>
-      [...orders].sort(
+      [...orderHistory].sort(
         (a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
       ),
-    [orders]
+    [orderHistory]
   );
 
   if (isLoading)
@@ -44,7 +45,7 @@ export const OrderHistoryScreen = ({
       </View>
     );
 
-  if (!orders.length)
+  if (!orderHistory.length)
     return (
       <View style={defaultStyles.screenCenter}>
         <Text>No data</Text>
@@ -59,7 +60,11 @@ export const OrderHistoryScreen = ({
         ItemSeparatorComponent={() => <View style={defaultStyles.separator} />}
         renderItem={({ item }) => {
           const { id, customerName, items, timestamp } = item;
-          const totalAmount = items.reduce((acc, item) => acc + item.price, 0);
+          const totalAmount = items.reduce(
+            (acc: number, item: OrderedItem) =>
+              acc + item.price * item.quantity,
+            0
+          );
 
           return (
             <Pressable

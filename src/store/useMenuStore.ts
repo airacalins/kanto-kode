@@ -9,6 +9,7 @@ type MenuStore = {
   setMenus: (menus: Menu[]) => void;
   addMenu: (menu: Omit<Menu, "id">) => void;
   editMenu: (updatedMenu: Menu) => void;
+  updateMenuQty: (id: string, qtyToSubtract: number) => void;
   deleteMenu: (id: string) => void;
 };
 
@@ -27,6 +28,20 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
       ),
     }));
   },
+  updateMenuQty: (id: string, qtyToSubtract: number) =>
+    set((state) => ({
+      menus: state.menus.map((menu) =>
+        menu.id === id
+          ? {
+              ...menu,
+              availableOrderQty: Math.max(
+                menu.availableOrderQty - qtyToSubtract,
+                0
+              ),
+            }
+          : menu
+      ),
+    })),
   deleteMenu: (id) => {
     set((state) => ({
       menus: state.menus.filter((menu) => menu.id !== id),

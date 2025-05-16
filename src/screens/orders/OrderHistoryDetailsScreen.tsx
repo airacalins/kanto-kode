@@ -8,6 +8,7 @@ import { useOrderStore } from "../../store/useOrderStore";
 import { textStyles } from "../../themes/textStyles";
 import { colors } from "../../themes/colors";
 import { formatTimestamp } from "../../utils/dateUtils";
+import { OrderedItem } from "../../types/Order";
 
 export const OrderHistoryDetailsScreen = ({
   route,
@@ -25,7 +26,10 @@ export const OrderHistoryDetailsScreen = ({
     );
 
   const { customerName, items, timestamp } = order;
-  const totalAmount = items.reduce((acc, item) => acc + item.price, 0);
+  const totalAmount = items.reduce(
+    (acc: number, item: OrderedItem) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
     <View style={[defaultStyles.screen, defaultStyles.p16]}>

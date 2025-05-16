@@ -4,11 +4,14 @@ import { Order } from "../types/Order";
 
 type OrderStore = {
   orders: Order[];
+  setOrders: (orders: Order[]) => void;
+
   addOrder: (order: Omit<Order, "id" | "timestamp">) => void;
 };
 
 export const useOrderStore = create<OrderStore>((set, get) => ({
   orders: [],
+  setOrders: (orders) => set({ orders }),
   addOrder: (order) =>
     set((state) => ({
       orders: [

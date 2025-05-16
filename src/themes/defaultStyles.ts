@@ -12,6 +12,9 @@ export const defaultStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  flex1: {
+    flex: 1,
+  },
   flexRow: {
     flexDirection: "row",
   },
@@ -28,6 +31,7 @@ export const defaultStyles = StyleSheet.create({
   gap16: {
     gap: 16,
   },
+
   separator: {
     height: 1,
     backgroundColor: colors.border,
@@ -37,6 +41,9 @@ export const defaultStyles = StyleSheet.create({
   },
   p16: {
     padding: 16,
+  },
+  p24: {
+    padding: 24,
   },
   footer: {
     bottom: 0,

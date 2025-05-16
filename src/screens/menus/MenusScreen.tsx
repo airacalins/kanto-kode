@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { Alert, FlatList, Pressable, View } from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 import { useMenus } from "../../api/queries/useMenus";
 import { textStyles } from "../../themes/textStyles";
 import { colors } from "../../themes/colors";

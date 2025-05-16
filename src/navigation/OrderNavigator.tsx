@@ -4,10 +4,12 @@ import { colors } from "../themes/colors";
 import { OrdersScreen } from "../screens/orders/OrdersScreen";
 import { OrderHistoryScreen } from "../screens/orders/OrderHistoryScreen";
 import { FilledButton } from "../components/Button/FilledButton";
+import { OrderHistoryDetailsScreen } from "../screens/orders/OrderHistoryDetailsScreen";
 
 export type OrderNavigatorParamList = {
   Orders: undefined;
   OrderHistory: undefined;
+  OrderHistoryDetails: { id: string };
 };
 
 const Stack = createNativeStackNavigator<OrderNavigatorParamList>();
@@ -42,6 +44,13 @@ export const OrderNavigator = () => {
         component={OrderHistoryScreen}
         options={{
           title: "Order History",
+        }}
+      />
+      <Stack.Screen
+        name="OrderHistoryDetails"
+        component={OrderHistoryDetailsScreen}
+        options={{
+          title: "Order History Details",
         }}
       />
     </Stack.Navigator>

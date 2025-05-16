@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { FlatList, Pressable, View } from "react-native";
 import { defaultStyles } from "../../themes/defaultStyles";
 import { useOrderStore } from "../../store/useOrderStore";
@@ -6,8 +6,12 @@ import { useOrders } from "../../api/queries/useOrders";
 import { Text } from "../../components/Typography/Text";
 import { textStyles } from "../../themes/textStyles";
 import { formatTimestamp } from "../../utils/dateUtils";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { OrderNavigatorParamList } from "../../navigation/OrderNavigator";
 
-export const OrderHistoryScreen = () => {
+export const OrderHistoryScreen = ({
+  navigation,
+}: NativeStackScreenProps<OrderNavigatorParamList, "OrderHistory">) => {
   const { orders, setOrders } = useOrderStore();
   const { data, isLoading, error } = useOrders();
 
@@ -16,6 +20,15 @@ export const OrderHistoryScreen = () => {
       setOrders(data);
     }
   }, [data, setOrders]);
+
+  const sortedOrders = useMemo(
+    () =>
+      [...orders].sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      ),
+    [orders]
+  );
 
   if (isLoading)
     return (
@@ -41,7 +54,7 @@ export const OrderHistoryScreen = () => {
   return (
     <View style={defaultStyles.screen}>
       <FlatList
-        data={orders}
+        data={sortedOrders}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <View style={defaultStyles.separator} />}
         renderItem={({ item }) => {
@@ -55,6 +68,7 @@ export const OrderHistoryScreen = () => {
                 defaultStyles.gap8,
                 defaultStyles.p24,
               ]}
+              onPress={() => navigation.navigate("OrderHistoryDetails", { id })}
             >
               <View style={[defaultStyles.gap4, defaultStyles.flex1]}>
                 <Text style={textStyles.text18}>{customerName}</Text>

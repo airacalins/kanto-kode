@@ -15,12 +15,22 @@ export const defaultStyles = StyleSheet.create({
   flex1: {
     flex: 1,
   },
+  flex3: {
+    flex: 3,
+  },
   flexRow: {
     flexDirection: "row",
+  },
+  flexCenter: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   flexRowSpaceBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  flexAlignItemsEnd: {
+    alignItems: "flex-end",
   },
   gap4: {
     gap: 4,
@@ -31,19 +41,27 @@ export const defaultStyles = StyleSheet.create({
   gap16: {
     gap: 16,
   },
-
+  gap24: {
+    gap: 24,
+  },
   separator: {
     height: 1,
     backgroundColor: colors.border,
   },
-  pl8: {
-    paddingLeft: 12,
+  p8: {
+    padding: 8,
   },
   p16: {
     padding: 16,
   },
   p24: {
     padding: 24,
+  },
+  pl8: {
+    paddingLeft: 12,
+  },
+  pl16: {
+    paddingLeft: 16,
   },
   footer: {
     bottom: 0,

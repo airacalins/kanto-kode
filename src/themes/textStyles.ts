@@ -29,4 +29,9 @@ export const textStyles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 18,
   },
+  text12: {
+    color: colors.dark,
+    fontSize: 12,
+    lineHeight: 16,
+  },
 });

@@ -5,9 +5,8 @@ import { textStyles } from "../themes/textStyles";
 import { colors } from "../themes/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { defaultStyles } from "../themes/defaultStyles";
-import { IconButton } from "../components/buttons/IconButton";
-import { FilledButton } from "../components/buttons/FilledButton";
-import { Text } from "../components/typography/Text";
+import { IconButton } from "../components/Button/IconButton";
+import { Text } from "../components/Typography/Text";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MenuNavigatorParamList } from "../navigation/MenuNavigator";
 
@@ -21,7 +20,7 @@ export const MenusScreen = ({ navigation }: MenusScreenProps) => {
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <View style={{ backgroundColor: colors.background }}>
+    <View style={defaultStyles.screen}>
       <FlatList
         data={menus}
         keyExtractor={(item) => item.id}

@@ -5,9 +5,14 @@ interface TextProps extends RNTextProps {
   color?: string;
 }
 
-export const Text: React.FC<TextProps> = ({ color, children, ...props }) => {
+export const Text: React.FC<TextProps> = ({
+  color,
+  children,
+  style,
+  ...props
+}) => {
   return (
-    <RNText style={{ color }} {...props}>
+    <RNText style={[style, { color }]} {...props}>
       {children}
     </RNText>
   );

@@ -1,12 +1,9 @@
 import React from "react";
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AddMenuScreen } from "../screens/AddMenuScreen";
 import { MenusScreen } from "../screens/MenusScreen";
 import { colors } from "../themes/colors";
-import { FilledButton } from "../components/buttons/FilledButton";
+import { FilledButton } from "../components/Button/FilledButton";
 
 export type MenuNavigatorParamList = {
   Menus: undefined;
@@ -34,6 +31,7 @@ export const MenuNavigator = () => {
           headerRight: () => (
             <FilledButton
               text="Add Menu"
+              size="small"
               onPress={() => navigation.navigate("AddMenu")}
             />
           ),

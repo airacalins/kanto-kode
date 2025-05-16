@@ -1,5 +1,11 @@
-import React from "react";
-import { Alert, KeyboardAvoidingView, ScrollView, View } from "react-native";
+import React, { useEffect } from "react";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  View,
+  Text,
+  Alert,
+} from "react-native";
 import { defaultStyles } from "../themes/defaultStyles";
 import { FilledButton } from "../components/Button/FilledButton";
 import { TextInput } from "../components/Input/TextInput";
@@ -7,9 +13,9 @@ import * as Yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMenuStore } from "../store/useMenuStore";
-import { v4 as uuidv4 } from "uuid";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MenuNavigatorParamList } from "../navigation/MenuNavigator";
+import { colors } from "../themes/colors";
 
 const addMenuSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -23,38 +29,83 @@ const addMenuSchema = Yup.object({
     .required("Quantity is required"),
 });
 
-type TAddMenuSchema = Yup.InferType<typeof addMenuSchema>;
+type TEditMenuSchema = Yup.InferType<typeof addMenuSchema>;
 
-const DEFAULT_VALUES = {
-  name: "",
-  price: 0,
-  availableOrderQty: 0,
-};
-
-export const AddMenuScreen = ({
+export const EditMenuScreen = ({
   navigation,
-}: NativeStackScreenProps<MenuNavigatorParamList, "AddMenu">) => {
-  const { addMenu } = useMenuStore();
+  route,
+}: NativeStackScreenProps<MenuNavigatorParamList, "EditMenu">) => {
+  const { getMenu, editMenu, deleteMenu } = useMenuStore();
+  const menuId = route.params.id;
+  const menu = getMenu(menuId);
+
+  if (!menu) {
+    return <Text>Menu not found</Text>;
+  }
+
+  const defaultValues: TEditMenuSchema = {
+    name: menu.name,
+    price: menu.price,
+    availableOrderQty: menu.availableOrderQty,
+  };
+
+  const handleSave = (formValues: TEditMenuSchema) => {
+    try {
+      editMenu({ id: menu.id, ...formValues });
+      Alert.alert(`${formValues.name} updated successfully`);
+    } catch (error) {
+      Alert.alert(`Error in updating menu: \n ${error}}`);
+    }
+    navigation.goBack();
+  };
+
+  const handleDeleteMenu = () => {
+    try {
+      deleteMenu(menuId);
+      Alert.alert(`${menu.name} deleted successfully`);
+    } catch (error) {
+      Alert.alert(`Error in deleting menu: \n ${error}}`);
+    }
+  };
 
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TAddMenuSchema>({
+  } = useForm<TEditMenuSchema>({
     resolver: yupResolver(addMenuSchema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues,
     mode: "onChange",
   });
 
-  const handleSave = (formValues: TAddMenuSchema) => {
-    try {
-      addMenu({ ...formValues });
-      Alert.alert(`${formValues.name} created successfully`);
-    } catch (error) {
-      Alert.alert(`Error in adding menu: \n ${error}}`);
-    }
-    navigation.goBack();
-  };
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <FilledButton
+          text="Delete"
+          size="small"
+          color={colors.danger}
+          onPress={() => {
+            Alert.alert(
+              "Confirm Delete",
+              "Are you sure you want to delete this menu?",
+              [
+                { text: "Cancel", style: "cancel" },
+                {
+                  text: "Delete",
+                  style: "destructive",
+                  onPress: () => {
+                    handleDeleteMenu();
+                    navigation.goBack();
+                  },
+                },
+              ]
+            );
+          }}
+        />
+      ),
+    });
+  }, [navigation, deleteMenu, route.params.id]);
 
   return (
     <KeyboardAvoidingView style={defaultStyles.screen}>
@@ -69,7 +120,7 @@ export const AddMenuScreen = ({
                 errorMessage={errors?.name?.message}
                 placeholder="ex: Sinigang"
                 {...field}
-                onChangeText={(text) => field.onChange(text)}
+                onChangeText={field.onChange}
               />
             )}
           />
@@ -92,7 +143,7 @@ export const AddMenuScreen = ({
             name="availableOrderQty"
             render={({ field }) => (
               <TextInput
-                label="Quanity"
+                label="Quantity"
                 errorMessage={errors?.availableOrderQty?.message}
                 placeholder="100"
                 keyboardType="numeric"
@@ -105,7 +156,7 @@ export const AddMenuScreen = ({
       </ScrollView>
       <View style={defaultStyles.footer}>
         <FilledButton
-          text={"Save"}
+          text="Save"
           disabled={!isValid}
           onPress={handleSubmit(handleSave, (errors) =>
             console.log(JSON.stringify(errors, null, 2))

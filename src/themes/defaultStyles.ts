@@ -6,6 +6,15 @@ export const defaultStyles = StyleSheet.create({
     backgroundColor: colors.background,
     flex: 1,
   },
+  screenCenter: {
+    alignItems: "center",
+    backgroundColor: colors.background,
+    flex: 1,
+    justifyContent: "center",
+  },
+  flexRow: {
+    flexDirection: "row",
+  },
   flexRowSpaceBetween: {
     flexDirection: "row",
     justifyContent: "space-between",

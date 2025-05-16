@@ -4,10 +4,12 @@ import { AddMenuScreen } from "../screens/AddMenuScreen";
 import { MenusScreen } from "../screens/MenusScreen";
 import { colors } from "../themes/colors";
 import { FilledButton } from "../components/Button/FilledButton";
+import { EditMenuScreen } from "../screens/EditMenuScreen";
 
 export type MenuNavigatorParamList = {
   Menus: undefined;
   AddMenu: undefined;
+  EditMenu: { id: string };
 };
 
 const Stack = createNativeStackNavigator<MenuNavigatorParamList>();
@@ -41,6 +43,11 @@ export const MenuNavigator = () => {
         name="AddMenu"
         component={AddMenuScreen}
         options={{ title: "Add Menu" }}
+      />
+      <Stack.Screen
+        name="EditMenu"
+        component={EditMenuScreen}
+        options={{ title: "Edit Menu" }}
       />
     </Stack.Navigator>
   );

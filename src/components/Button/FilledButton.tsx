@@ -13,12 +13,14 @@ import { textStyles } from "../../themes/textStyles";
 
 interface FilledButtonProps extends TouchableOpacityProps {
   text: string;
+  color?: string;
   size?: "small" | "large";
 }
 
 export const FilledButton: React.FC<FilledButtonProps> = ({
   text,
   size = "large",
+  color = colors.dark,
   ...props
 }) => {
   const isLarge = size === "large";
@@ -30,7 +32,7 @@ export const FilledButton: React.FC<FilledButtonProps> = ({
           styles.button,
           {
             height: isLarge ? 48 : 32,
-            backgroundColor: props.disabled ? colors.grey : colors.dark,
+            backgroundColor: props.disabled ? colors.grey : color,
           },
         ]}
       >

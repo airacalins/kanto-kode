@@ -10,6 +10,9 @@ export const defaultStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  gap4: {
+    gap: 4,
+  },
   gap8: {
     gap: 8,
   },
@@ -20,7 +23,16 @@ export const defaultStyles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.border,
   },
+  pl8: {
+    paddingLeft: 12,
+  },
   p16: {
     padding: 16,
+  },
+  footer: {
+    bottom: 0,
+    padding: 16,
+    position: "absolute",
+    width: "100%",
   },
 });

@@ -4,57 +4,49 @@
       "id": "2d72f050-6b7c-4e1f-b9cc-39583b36a1f7",
       "name": "Adobo",
       "price": 70,
-      "availableOrderQty": 10,
-      "description": "Manok o baboy na niluto sa toyo, suka, bawang, at paminta."
+      "availableOrderQty": 10
     },
     {
       "id": "42c7d4c5-10ee-4b60-bd94-e9e98e31e9f1",
       "name": "Sinigang",
       "price": 80,
-      "availableOrderQty": 8,
-      "description": "Maasim na sabaw na karaniwang may baboy at gulay."
+      "availableOrderQty": 8
     },
     {
       "id": "0c4533e5-7740-4a38-97ea-9bcb1cb6466d",
       "name": "Kare-Kare",
       "price": 90,
-      "availableOrderQty": 5,
-      "description": "Malapot na nilaga na may mani, oxtail, at gulay, kadalasang may bagoong."
+      "availableOrderQty": 5
     },
     {
       "id": "7824f61d-873e-4c3d-93d2-5130e57b07c4",
       "name": "Tinola",
       "price": 75,
-      "availableOrderQty": 6,
-      "description": "Sabaw na manok na may luya, papaya, at dahon ng sili."
+      "availableOrderQty": 6
     },
     {
       "id": "4e022a89-5fa0-4e80-a65a-f645e3f80f14",
       "name": "Bistek Tagalog",
       "price": 85,
-      "availableOrderQty": 7,
-      "description": "Piniritong baka na may toyo, kalamansi, at sibuyas."
+      "availableOrderQty": 7
     },
     {
       "id": "dd8f74db-553f-4e3f-bf61-c5b755a49648",
       "name": "Lechon Kawali",
       "price": 100,
-      "availableOrderQty": 4,
-      "description": "Malutong na pritong baboy na nilaga muna bago iprito."
+      "availableOrderQty": 4
     },
     {
       "id": "8d47d482-960b-42d3-b62e-d7f2b5b2c13c",
       "name": "Pancit Canton",
       "price": 60,
-      "availableOrderQty": 9,
-      "description": "Ginisang pansit canton na may gulay, karne, at hipon."
+      "availableOrderQty": 9
     },
     {
       "id": "8499a1d2-d5b4-4fc3-a2df-54f268413fde",
       "name": "Kanin",
       "price": 15,
-      "availableOrderQty": 999999,
-      "description": "Mainit na sinaing, laging kasama sa bawat ulam."
+      "availableOrderQty": 999999
     }
   ],
   "orders": {

@@ -28,7 +28,6 @@ export const MenusScreen = ({ navigation }: MenusScreenProps) => {
         renderItem={({ item }) => (
           <View style={{ padding: 24, gap: 8 }}>
             <Text style={textStyles.text18}>{item.name}</Text>
-            <Text style={textStyles.text14}>{item.description}</Text>
             <View style={defaultStyles.flexRowSpaceBetween}>
               <Text style={textStyles.textBold14}>₱ {item.price}</Text>
               <IconButton

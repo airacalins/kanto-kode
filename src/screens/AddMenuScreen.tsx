@@ -5,8 +5,11 @@ import { FilledButton } from "../components/Button/FilledButton";
 import { TextInput } from "../components/Input/TextInput";
 import * as Yup from "yup";
 import { Controller, useForm } from "react-hook-form";
-import { Menu } from "../types/Menu";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMenuStore } from "../store/useMenuStore";
+import { v4 as uuidv4 } from "uuid";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { MenuNavigatorParamList } from "../navigation/MenuNavigator";
 
 const addMenuSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -20,14 +23,21 @@ const addMenuSchema = Yup.object({
     .required("Quantity is required"),
 });
 
-export type TAddMenuSchema = Yup.InferType<typeof addMenuSchema>;
+type TAddMenuSchema = Yup.InferType<typeof addMenuSchema>;
 
-export const AddMenuScreen: React.FC = () => {
-  const defaultValues: TAddMenuSchema = {
-    name: "",
-    price: 0,
-    availableOrderQty: 0,
-  };
+type MenusNavigatorProps = NativeStackScreenProps<
+  MenuNavigatorParamList,
+  "AddMenu"
+>;
+
+const DEFAULT_VALUES = {
+  name: "",
+  price: 0,
+  availableOrderQty: 1,
+};
+
+export const AddMenuScreen = ({ navigation }: MenusNavigatorProps) => {
+  const { addMenu } = useMenuStore();
 
   const {
     control,
@@ -35,12 +45,18 @@ export const AddMenuScreen: React.FC = () => {
     formState: { errors, isValid },
   } = useForm<TAddMenuSchema>({
     resolver: yupResolver(addMenuSchema),
-    defaultValues,
+    defaultValues: DEFAULT_VALUES,
     mode: "onChange",
   });
 
   const handleSave = (formValues: TAddMenuSchema) => {
-    console.log(JSON.stringify(formValues, null, 2));
+    try {
+      addMenu({ ...formValues });
+    } catch (error) {
+      console.error("Error in addMenu:", error);
+    }
+
+    navigation.goBack();
   };
 
   return (
@@ -57,7 +73,6 @@ export const AddMenuScreen: React.FC = () => {
                 placeholder="ex: Sinigang"
                 {...field}
                 onChangeText={(text) => field.onChange(text)}
-                onBlur={field.onBlur}
               />
             )}
           />
@@ -72,7 +87,6 @@ export const AddMenuScreen: React.FC = () => {
                 keyboardType="numeric"
                 value={String(field.value)}
                 onChangeText={(text) => field.onChange(Number(text))}
-                onBlur={field.onBlur}
               />
             )}
           />
@@ -87,14 +101,19 @@ export const AddMenuScreen: React.FC = () => {
                 keyboardType="numeric"
                 value={String(field.value)}
                 onChangeText={(text) => field.onChange(Number(text))}
-                onBlur={field.onBlur}
               />
             )}
           />
         </View>
       </ScrollView>
       <View style={defaultStyles.footer}>
-        <FilledButton text={"Save"} onPress={handleSubmit(handleSave)} />
+        <FilledButton
+          text={"Save"}
+          disabled={!isValid}
+          onPress={handleSubmit(handleSave, (errors) =>
+            console.log(JSON.stringify(errors, null, 2))
+          )}
+        />
       </View>
     </KeyboardAvoidingView>
   );

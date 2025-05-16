@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, View } from "react-native";
 import { useMenus } from "../api/queries/useMenus";
 import { textStyles } from "../themes/textStyles";
@@ -9,11 +9,21 @@ import { IconButton } from "../components/Button/IconButton";
 import { Text } from "../components/Typography/Text";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MenuNavigatorParamList } from "../navigation/MenuNavigator";
+import { useMenuStore } from "../store/useMenuStore";
 
 type MenusScreenProps = NativeStackScreenProps<MenuNavigatorParamList, "Menus">;
 
-export const MenusScreen = ({ navigation }: MenusScreenProps) => {
-  const { data: menus, isLoading, error } = useMenus();
+export const MenusScreen = () => {
+  const { menus, setMenus } = useMenuStore();
+  const { data, isLoading, error } = useMenus();
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setMenus(data);
+    }
+  }, [data, setMenus]);
+
+  const sortedMenus = [...menus].sort((a, b) => a.name.localeCompare(b.name));
 
   if (isLoading) return <Text>Loading menu...</Text>;
 
@@ -22,7 +32,7 @@ export const MenusScreen = ({ navigation }: MenusScreenProps) => {
   return (
     <View style={defaultStyles.screen}>
       <FlatList
-        data={menus}
+        data={sortedMenus}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <View style={defaultStyles.separator} />}
         renderItem={({ item }) => (

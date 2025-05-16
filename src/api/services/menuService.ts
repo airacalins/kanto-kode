@@ -1,6 +1,5 @@
+import { BASE_URL } from "../../config/api";
 import { Menu } from "../../types/Menu";
-
-const BASE_URL = "http://192.168.254.193:3000";
 
 export const fetchMenus = async (): Promise<Menu[]> => {
   const res = await fetch(`${BASE_URL}/menus`);

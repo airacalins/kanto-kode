@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo } from "react";
 import { Alert, FlatList, Pressable, View } from "react-native";
-import { useMenus } from "../api/queries/useMenus";
-import { textStyles } from "../themes/textStyles";
-import { colors } from "../themes/colors";
+import { useMenus } from "../../api/queries/useMenus";
+import { textStyles } from "../../themes/textStyles";
+import { colors } from "../../themes/colors";
 import { AntDesign } from "@expo/vector-icons";
-import { defaultStyles } from "../themes/defaultStyles";
-import { IconButton } from "../components/Button/IconButton";
-import { Text } from "../components/Typography/Text";
-import { useMenuStore } from "../store/useMenuStore";
+import { defaultStyles } from "../../themes/defaultStyles";
+import { IconButton } from "../../components/Button/IconButton";
+import { Text } from "../../components/Typography/Text";
+import { useMenuStore } from "../../store/useMenuStore";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MenuNavigatorParamList } from "../navigation/MenuNavigator";
-import { FilledButton } from "../components/Button/FilledButton";
+import { MenuNavigatorParamList } from "../../navigation/MenuNavigator";
+import { FilledButton } from "../../components/Button/FilledButton";
 
 export const MenusScreen = ({
   navigation,

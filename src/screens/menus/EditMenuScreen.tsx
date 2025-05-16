@@ -6,16 +6,16 @@ import {
   Text,
   Alert,
 } from "react-native";
-import { defaultStyles } from "../themes/defaultStyles";
-import { FilledButton } from "../components/Button/FilledButton";
-import { TextInput } from "../components/Input/TextInput";
+import { defaultStyles } from "../../themes/defaultStyles";
+import { FilledButton } from "../../components/Button/FilledButton";
+import { TextInput } from "../../components/Input/TextInput";
 import * as Yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMenuStore } from "../store/useMenuStore";
+import { useMenuStore } from "../../store/useMenuStore";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MenuNavigatorParamList } from "../navigation/MenuNavigator";
-import { colors } from "../themes/colors";
+import { MenuNavigatorParamList } from "../../navigation/MenuNavigator";
+import { colors } from "../../themes/colors";
 
 const addMenuSchema = Yup.object({
   name: Yup.string().required("Name is required"),

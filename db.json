@@ -49,13 +49,77 @@
       "availableOrderQty": 999999
     }
   ],
-  "orders": {
-    "ORDER0001": {
-      "items": {
-        "2d72f050-6b7c-4e1f-b9cc-39583b36a1f7": 1,
-        "8499a1d2-d5b4-4fc3-a2df-54f268413fde": 3
-      },
-      "totals": 115
+  "orders": [
+    {
+      "id": "e7a4b72e-4f13-4c29-8a34-9a4a1b8c9e31",
+      "customerName": "Juan Miguel Santos",
+      "items": [
+        {
+          "menuId": "8499a1d2-d5b4-4fc3-a2df-54f268413fde",
+          "name": "Kanin",
+          "price": 15,
+          "quantity": 2
+        }
+      ],
+      "timestamp": "2025-05-16T08:30:00.000Z"
+    },
+    {
+      "id": "1c3a4b9f-6a6b-4ee1-b2d9-5e6d8f9f8f77",
+      "customerName": "Maria Angelica Reyes",
+      "items": [
+        {
+          "menuId": "8d47d482-960b-42d3-b62e-d7f2b5b2c13c",
+          "name": "Pancit Canton",
+          "price": 60,
+          "quantity": 3
+        }
+      ],
+      "timestamp": "2025-05-16T09:15:00.000Z"
+    },
+    {
+      "id": "b8a21c47-3b29-4a3f-9f0a-4a5e7d4f993e",
+      "customerName": "Maria Angelica Reyes",
+      "items": [
+        {
+          "menuId": "2d72f050-6b7c-4e1f-b9cc-39583b36a1f7",
+          "name": "Adobo",
+          "price": 70,
+          "quantity": 1
+        }
+      ],
+      "timestamp": "2025-05-16T10:00:00.000Z"
+    },
+    {
+      "id": "d2b67f98-879a-4f68-b1b2-8a749a349cf0",
+      "customerName": "Ana Patricia Delos Reyes",
+      "items": [
+        {
+          "menuId": "2d72f050-6b7c-4e1f-b9cc-39583b36a1f7",
+          "name": "Adobo",
+          "price": 70,
+          "quantity": 1
+        }
+      ],
+      "timestamp": "2025-05-16T10:45:00.000Z"
+    },
+    {
+      "id": "7f8c4d22-3bb4-4a99-9d13-56681f247e0e",
+      "customerName": "Mark Anthony Garcia",
+      "items": [
+        {
+          "menuId": "2d72f050-6b7c-4e1f-b9cc-39583b36a1f7",
+          "name": "Adobo",
+          "price": 70,
+          "quantity": 2
+        },
+        {
+          "menuId": "8d47d482-960b-42d3-b62e-d7f2b5b2c13c",
+          "name": "Pancit Canton",
+          "price": 60,
+          "quantity": 1
+        }
+      ],
+      "timestamp": "2025-05-16T11:30:00.000Z"
     }
-  }
+  ]
 }

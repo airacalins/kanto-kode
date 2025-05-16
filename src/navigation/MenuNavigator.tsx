@@ -1,10 +1,10 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AddMenuScreen } from "../screens/AddMenuScreen";
-import { MenusScreen } from "../screens/MenusScreen";
+import { AddMenuScreen } from "../screens/menus/AddMenuScreen";
+import { MenusScreen } from "../screens/menus/MenusScreen";
 import { colors } from "../themes/colors";
 import { FilledButton } from "../components/Button/FilledButton";
-import { EditMenuScreen } from "../screens/EditMenuScreen";
+import { EditMenuScreen } from "../screens/menus/EditMenuScreen";
 
 export type MenuNavigatorParamList = {
   Menus: undefined;

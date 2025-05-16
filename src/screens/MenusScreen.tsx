@@ -1,20 +1,19 @@
 import React from "react";
-import {
-  FlatList,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { useMenus } from "../../api/queries/useMenus";
-import { textStyles } from "../../themes/textStyles";
-import { colors } from "../../themes/colors";
+import { FlatList, View } from "react-native";
+import { useMenus } from "../api/queries/useMenus";
+import { textStyles } from "../themes/textStyles";
+import { colors } from "../themes/colors";
 import { AntDesign } from "@expo/vector-icons";
-import { defaultStyles } from "../../themes/defaultStyles";
-import { IconButton } from "../../components/buttons/IconButton";
+import { defaultStyles } from "../themes/defaultStyles";
+import { IconButton } from "../components/buttons/IconButton";
+import { FilledButton } from "../components/buttons/FilledButton";
+import { Text } from "../components/typography/Text";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { MenuNavigatorParamList } from "../navigation/MenuNavigator";
 
-export const MenusScreen: React.FC = () => {
+type MenusScreenProps = NativeStackScreenProps<MenuNavigatorParamList, "Menus">;
+
+export const MenusScreen = ({ navigation }: MenusScreenProps) => {
   const { data: menus, isLoading, error } = useMenus();
 
   if (isLoading) return <Text>Loading menu...</Text>;
@@ -22,10 +21,7 @@ export const MenusScreen: React.FC = () => {
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <SafeAreaView>
-      <View style={{ padding: 24 }}>
-        <Text style={textStyles.textBold18}>Menus</Text>
-      </View>
+    <View style={{ backgroundColor: colors.background }}>
       <FlatList
         data={menus}
         keyExtractor={(item) => item.id}
@@ -43,6 +39,6 @@ export const MenusScreen: React.FC = () => {
           </View>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };

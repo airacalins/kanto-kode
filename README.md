@@ -22,6 +22,15 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
    npx expo start
    ```
+4. Running the JSON Server
+
+- This project uses a JSON server to mock the backend API.
+
+- To start the JSON server, run this command in your project root:
+
+   ```bash
+   npx json-server db.json
+   ```
 
 You can run the app on:
 
@@ -31,8 +40,16 @@ You can run the app on:
 
 ---
 
+
 ### Note
 
 - If running on a physical device, make sure your computer and device are on the same network.
 
 - Physical device using the Expo Go app (scan QR code)
+---
+
+### Important:
+If running on a physical device, update the API URL in src/config/api.ts:
+- Replace localhost with your computer's local IP address.
+Find your computer's IP address with:
+

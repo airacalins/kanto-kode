@@ -19,6 +19,14 @@ import { useMenuStore } from "../../store/useMenuStore";
 import * as Yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  CompositeNavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
+import { MenuNavigatorParamList } from "../../navigation/MenuNavigator";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { TabParamList } from "../../navigation/TabNavigator";
 
 const addOrderSchema = Yup.object({
   customerName: Yup.string().required("Customer's name is required"),
@@ -31,6 +39,14 @@ const DEFAULT_VALUES = {
 };
 
 export const AddOrderScreen = () => {
+  const navigation =
+    useNavigation<
+      CompositeNavigationProp<
+        BottomTabNavigationProp<TabParamList, "MenusTab">,
+        NativeStackNavigationProp<MenuNavigatorParamList>
+      >
+    >();
+
   const { getMenu, updateMenuQty } = useMenuStore();
   const {
     currentOrderItems,
@@ -128,8 +144,13 @@ export const AddOrderScreen = () => {
 
   if (!currentOrderItems.length)
     return (
-      <View style={defaultStyles.screenCenter}>
+      <View style={[defaultStyles.screenCenter, defaultStyles.gap8]}>
         <Text>No orders yet.</Text>
+        <FilledButton
+          size="small"
+          text="Add Order"
+          onPress={() => navigation.navigate("MenusTab", { screen: "Menus" })}
+        />
       </View>
     );
 

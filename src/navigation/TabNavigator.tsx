@@ -1,11 +1,16 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MenuNavigator } from "./MenuNavigator"; // your stack navigator
+import { MenuNavigator, MenuNavigatorParamList } from "./MenuNavigator";
 import { AntDesign } from "@expo/vector-icons";
-import { OrderNavigator } from "./OrderNavigator";
+import { OrderNavigator, OrderNavigatorParamList } from "./OrderNavigator";
 import { colors } from "../themes/colors";
 
 const Tab = createBottomTabNavigator();
+
+export type TabParamList = {
+  MenusTab: { screen?: keyof MenuNavigatorParamList } | undefined;
+  OrderTab: { screen?: keyof OrderNavigatorParamList } | undefined;
+};
 
 export const TabNavigator = () => {
   return (
@@ -19,7 +24,7 @@ export const TabNavigator = () => {
 
           if (route.name === "MenusTab") {
             iconName = "menuunfold";
-          } else if (route.name === "OtherTab") {
+          } else if (route.name === "OrderTab") {
             iconName = "profile";
           } else {
             iconName = "question";
@@ -38,7 +43,7 @@ export const TabNavigator = () => {
         options={{ tabBarLabel: "Menus" }}
       />
       <Tab.Screen
-        name="OtherTab"
+        name="OrderTab"
         component={OrderNavigator}
         options={{ tabBarLabel: "Orders" }}
       />

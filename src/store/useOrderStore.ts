@@ -14,7 +14,7 @@ type OrderStore = {
 
   // Current order methods
   addItemToCurrentOrder: (menu: Menu) => void;
-  removeItemFromCurrentOrder: (menuId: string) => void;
+  removeItemFromCurrentOrder: (menu: Menu) => void;
   clearCurrentOrder: () => void;
 };
 
@@ -59,12 +59,25 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
     }
   },
 
-  removeItemFromCurrentOrder: (menuId) => {
-    set({
-      currentOrderItems: get().currentOrderItems.filter(
-        (item) => item.menuId !== menuId
-      ),
-    });
+  removeItemFromCurrentOrder: (menu) => {
+    const items = get().currentOrderItems;
+    const index = items.findIndex((item) => item.menuId === menu.id);
+
+    if (index === -1) {
+      set({
+        currentOrderItems: [
+          ...items,
+          { menuId: menu.id, quantity: 1, name: menu.name, price: menu.price },
+        ],
+      });
+    } else {
+      const updated = items.map((item) =>
+        item.menuId === menu.id
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+      set({ currentOrderItems: updated });
+    }
   },
 
   clearCurrentOrder: () => set({ currentOrderItems: [] }),

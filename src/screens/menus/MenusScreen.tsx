@@ -64,20 +64,21 @@ export const MenusScreen = ({
     );
 
   return (
-    <View style={defaultStyles.screen}>
+    <View style={[defaultStyles.screen, defaultStyles.p16]}>
       <FlatList
         data={sortedMenus}
         keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => <View style={defaultStyles.separator} />}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={defaultStyles.h16} />}
         renderItem={({ item }) => {
           const { id, name, price, availableOrderQty } = item;
 
           return (
-            <View style={[defaultStyles.flexRow, { padding: 24, gap: 8 }]}>
-              <Pressable
-                style={{ flex: 1 }}
-                onPress={() => navigation.navigate("EditMenu", { id })}
-              >
+            <Pressable
+              style={[defaultStyles.flexRow, defaultStyles.card]}
+              onPress={() => navigation.navigate("EditMenu", { id })}
+            >
+              <View style={{ flex: 1 }}>
                 <Text
                   color={availableOrderQty <= 0 ? colors.grey : undefined}
                   style={textStyles.text18}
@@ -91,7 +92,7 @@ export const MenusScreen = ({
                 >
                   ₱ {price}
                 </Text>
-              </Pressable>
+              </View>
               {availableOrderQty > 0 && (
                 <IconButton
                   icon={
@@ -104,7 +105,7 @@ export const MenusScreen = ({
                   }
                 />
               )}
-            </View>
+            </Pressable>
           );
         }}
       />

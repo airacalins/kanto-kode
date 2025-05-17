@@ -20,7 +20,11 @@ import { Menu } from "../../types/Menu";
 
 export const OrdersScreen = () => {
   const { getMenu, addMenu, updateMenuQty } = useMenuStore();
-  const { currentOrderItems, addItemToCurrentOrder } = useOrderStore();
+  const {
+    currentOrderItems,
+    addItemToCurrentOrder,
+    removeItemFromCurrentOrder,
+  } = useOrderStore();
 
   const totalAmount = currentOrderItems.reduce(
     (acc: number, item: OrderedItem) => acc + item.price * item.quantity,
@@ -45,10 +49,26 @@ export const OrdersScreen = () => {
     try {
       addItemToCurrentOrder(menu);
       updateMenuQty(menuId, 1);
-    } catch (error) {}
+    } catch (error) {
+      Alert.alert(`Error updatibg quantity: \n ${error}}`);
+    }
   };
 
-  const handleMinusQuantity = () => {};
+  const handleMinusQuantity = (menuId: string) => {
+    const menu = getMenu(menuId);
+
+    if (!menu) {
+      Alert.alert("Cannot find a menu");
+      return;
+    }
+
+    try {
+      removeItemFromCurrentOrder(menu);
+      updateMenuQty(menuId, -1);
+    } catch (error) {
+      Alert.alert(`Error updatibg quantity: \n ${error}}`);
+    }
+  };
 
   return (
     <>
@@ -94,6 +114,8 @@ export const OrdersScreen = () => {
           )}
           renderItem={({ item }) => {
             const { menuId, name, price, quantity } = item;
+            const menu = getMenu(menuId);
+            const soldoutMenu = (menu?.availableOrderQty || 0) <= 0;
 
             return (
               <View style={[defaultStyles.flexRow, defaultStyles.p8]}>
@@ -107,21 +129,37 @@ export const OrdersScreen = () => {
                     <TouchableOpacity
                       style={[
                         styles.button,
-                        { backgroundColor: colors.warning },
+                        {
+                          backgroundColor:
+                            quantity <= 1 ? colors.grey : colors.warning,
+                        },
                       ]}
-                      onPress={handleMinusQuantity}
+                      disabled={quantity <= 1}
+                      onPress={() => handleMinusQuantity(menuId)}
                     >
-                      <AntDesign name="minus" />
+                      <AntDesign
+                        name="minus"
+                        color={quantity <= 1 ? colors.white : colors.dark}
+                      />
                     </TouchableOpacity>
                   </View>
                   <View style={[defaultStyles.flex3, defaultStyles.flexCenter]}>
                     <Text style={textStyles.text14}>{quantity}</Text>
                   </View>
                   <TouchableOpacity
-                    style={[styles.button, { backgroundColor: colors.success }]}
+                    style={[
+                      styles.button,
+                      soldoutMenu
+                        ? defaultStyles.bgGrey
+                        : defaultStyles.bgSuccess,
+                    ]}
+                    disabled={soldoutMenu}
                     onPress={() => handleAddQuantity(menuId)}
                   >
-                    <AntDesign name="plus" />
+                    <AntDesign
+                      name="plus"
+                      color={soldoutMenu ? colors.white : colors.dark}
+                    />
                   </TouchableOpacity>
                 </View>
                 <View

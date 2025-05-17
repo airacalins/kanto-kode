@@ -12,6 +12,19 @@ export const defaultStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  card: {
+    borderColor: colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    gap: 8,
+    padding: 16,
+  },
+  bgSuccess: {
+    backgroundColor: colors.success,
+  },
+  bgGrey: {
+    backgroundColor: colors.grey,
+  },
   flex1: {
     flex: 1,
   },
@@ -36,6 +49,9 @@ export const defaultStyles = StyleSheet.create({
   },
   flexAlignItemsEnd: {
     alignItems: "flex-end",
+  },
+  h16: {
+    height: 16,
   },
   gap4: {
     gap: 4,

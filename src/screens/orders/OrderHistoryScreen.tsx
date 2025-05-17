@@ -53,11 +53,12 @@ export const OrderHistoryScreen = ({
     );
 
   return (
-    <View style={defaultStyles.screen}>
+    <View style={[defaultStyles.screen, defaultStyles.p16]}>
       <FlatList
         data={sortedOrders}
         keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => <View style={defaultStyles.separator} />}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={defaultStyles.h16} />}
         renderItem={({ item }) => {
           const { id, customerName, items, timestamp } = item;
           const totalAmount = items.reduce(
@@ -68,11 +69,7 @@ export const OrderHistoryScreen = ({
 
           return (
             <Pressable
-              style={[
-                defaultStyles.flexRow,
-                defaultStyles.gap8,
-                defaultStyles.p24,
-              ]}
+              style={[defaultStyles.flexRow, defaultStyles.card]}
               onPress={() => navigation.navigate("OrderHistoryDetails", { id })}
             >
               <View style={[defaultStyles.gap4, defaultStyles.flex1]}>

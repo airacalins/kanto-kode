@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./src/api/client";
 import { NavigationContainer } from "@react-navigation/native";

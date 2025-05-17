@@ -17,7 +17,8 @@ export const MenusScreen = ({
   navigation,
 }: NativeStackScreenProps<MenuNavigatorParamList, "Menus">) => {
   const { menus, setMenus, updateMenuQty } = useMenuStore();
-  const { addItemToCurrentOrder } = useOrderStore();
+  const { addItemQuanityToCurrentOrder: addItemToCurrentOrder } =
+    useOrderStore();
   const { data, isLoading, error } = useMenus();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export const MenusScreen = ({
   const handleAddToOrder = (menu: Menu) => {
     try {
       addItemToCurrentOrder(menu);
-      updateMenuQty(menu.id, 1);
+      updateMenuQty(menu.id, -1);
 
       Alert.alert(`${menu.name} is added to the order`);
     } catch (error) {

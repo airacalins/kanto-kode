@@ -16,13 +16,13 @@ import { Text } from "../../components/Typography/Text";
 import { FilledButton } from "../../components/Button/FilledButton";
 import { AntDesign } from "@expo/vector-icons";
 import { useMenuStore } from "../../store/useMenuStore";
-import { Menu } from "../../types/Menu";
 
 export const OrdersScreen = () => {
-  const { getMenu, addMenu, updateMenuQty } = useMenuStore();
+  const { getMenu, updateMenuQty } = useMenuStore();
   const {
     currentOrderItems,
-    addItemToCurrentOrder,
+    addItemQuanityToCurrentOrder: addItemToCurrentOrder,
+    subtractItemQuantityFromCurrentOrder: subtractItemFromCurrentOrder,
     removeItemFromCurrentOrder,
   } = useOrderStore();
 
@@ -48,7 +48,7 @@ export const OrdersScreen = () => {
 
     try {
       addItemToCurrentOrder(menu);
-      updateMenuQty(menuId, 1);
+      updateMenuQty(menuId, -1);
     } catch (error) {
       Alert.alert(`Error updatibg quantity: \n ${error}}`);
     }
@@ -62,11 +62,39 @@ export const OrdersScreen = () => {
       return;
     }
 
-    try {
-      removeItemFromCurrentOrder(menu);
-      updateMenuQty(menuId, -1);
-    } catch (error) {
-      Alert.alert(`Error updatibg quantity: \n ${error}}`);
+    const currentItem = currentOrderItems.find(
+      (item) => item.menuId === menuId
+    );
+
+    if (!currentItem) return;
+
+    if (currentItem.quantity <= 1) {
+      Alert.alert(
+        "Remove item?",
+        "Are you sure you want to remove this item from the order?",
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Remove",
+            style: "destructive",
+            onPress: () => {
+              try {
+                removeItemFromCurrentOrder(menu.id);
+                updateMenuQty(menuId, currentItem.quantity);
+              } catch (error) {
+                Alert.alert(`Error updating quantity:\n${error}`);
+              }
+            },
+          },
+        ]
+      );
+    } else {
+      try {
+        subtractItemFromCurrentOrder(menu);
+        updateMenuQty(menuId, 1);
+      } catch (error) {
+        Alert.alert(`Error updating quantity:\n${error}`);
+      }
     }
   };
 
@@ -131,15 +159,15 @@ export const OrdersScreen = () => {
                         styles.button,
                         {
                           backgroundColor:
-                            quantity <= 1 ? colors.grey : colors.warning,
+                            quantity <= 0 ? colors.grey : colors.warning,
                         },
                       ]}
-                      disabled={quantity <= 1}
+                      disabled={quantity <= 0}
                       onPress={() => handleMinusQuantity(menuId)}
                     >
                       <AntDesign
                         name="minus"
-                        color={quantity <= 1 ? colors.white : colors.dark}
+                        color={quantity <= 0 ? colors.white : colors.dark}
                       />
                     </TouchableOpacity>
                   </View>

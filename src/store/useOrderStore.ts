@@ -13,8 +13,9 @@ type OrderStore = {
   addOrderToHistory: (order: Omit<Order, "id" | "timestamp">) => void;
 
   // Current order methods
-  addItemToCurrentOrder: (menu: Menu) => void;
-  removeItemFromCurrentOrder: (menu: Menu) => void;
+  addItemQuanityToCurrentOrder: (menu: Menu) => void;
+  subtractItemQuantityFromCurrentOrder: (menu: Menu) => void;
+  removeItemFromCurrentOrder: (menuId: string) => void;
   clearCurrentOrder: () => void;
 };
 
@@ -38,7 +39,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       currentOrderItems: [],
     })),
 
-  addItemToCurrentOrder: (menu: Menu) => {
+  addItemQuanityToCurrentOrder: (menu: Menu) => {
     const items = get().currentOrderItems;
     const index = items.findIndex((item) => item.menuId === menu.id);
 
@@ -59,7 +60,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
     }
   },
 
-  removeItemFromCurrentOrder: (menu) => {
+  subtractItemQuantityFromCurrentOrder: (menu) => {
     const items = get().currentOrderItems;
     const index = items.findIndex((item) => item.menuId === menu.id);
 
@@ -78,6 +79,14 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       );
       set({ currentOrderItems: updated });
     }
+  },
+
+  removeItemFromCurrentOrder: (menuId) => {
+    set({
+      currentOrderItems: get().currentOrderItems.filter(
+        (item) => item.menuId !== menuId
+      ),
+    });
   },
 
   clearCurrentOrder: () => set({ currentOrderItems: [] }),

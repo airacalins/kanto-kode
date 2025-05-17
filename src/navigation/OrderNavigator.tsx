@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { colors } from "../themes/colors";
-import { OrdersScreen } from "../screens/orders/OrdersScreen";
+import { AddOrderScreen } from "../screens/orders/AddOrderScreen";
 import { OrderHistoryScreen } from "../screens/orders/OrderHistoryScreen";
 import { FilledButton } from "../components/Button/FilledButton";
 import { OrderHistoryDetailsScreen } from "../screens/orders/OrderHistoryDetailsScreen";
@@ -27,9 +27,9 @@ export const OrderNavigator = () => {
     >
       <Stack.Screen
         name="Orders"
-        component={OrdersScreen}
+        component={AddOrderScreen}
         options={({ navigation }) => ({
-          title: "Menus",
+          title: "Add Order",
           headerRight: () => (
             <FilledButton
               text="Order History"

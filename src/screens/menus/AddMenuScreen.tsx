@@ -7,7 +7,6 @@ import * as Yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMenuStore } from "../../store/useMenuStore";
-import { v4 as uuidv4 } from "uuid";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MenuNavigatorParamList } from "../../navigation/MenuNavigator";
 
@@ -107,9 +106,7 @@ export const AddMenuScreen = ({
         <FilledButton
           text={"Save"}
           disabled={!isValid}
-          onPress={handleSubmit(handleSave, (errors) =>
-            console.log(JSON.stringify(errors, null, 2))
-          )}
+          onPress={handleSubmit(handleSave)}
         />
       </View>
     </KeyboardAvoidingView>

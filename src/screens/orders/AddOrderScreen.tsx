@@ -16,13 +16,27 @@ import { Text } from "../../components/Typography/Text";
 import { FilledButton } from "../../components/Button/FilledButton";
 import { AntDesign } from "@expo/vector-icons";
 import { useMenuStore } from "../../store/useMenuStore";
+import * as Yup from "yup";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-export const OrdersScreen = () => {
+const addOrderSchema = Yup.object({
+  customerName: Yup.string().required("Customer's name is required"),
+});
+
+type TAddOrderSchema = Yup.InferType<typeof addOrderSchema>;
+
+const DEFAULT_VALUES = {
+  customerName: "",
+};
+
+export const AddOrderScreen = () => {
   const { getMenu, updateMenuQty } = useMenuStore();
   const {
     currentOrderItems,
-    addItemQuanityToCurrentOrder: addItemToCurrentOrder,
-    subtractItemQuantityFromCurrentOrder: subtractItemFromCurrentOrder,
+    addOrderToHistory,
+    addItemQuantityToCurrentOrder,
+    subtractItemQuantityFromCurrentOrder,
     removeItemFromCurrentOrder,
   } = useOrderStore();
 
@@ -31,12 +45,16 @@ export const OrdersScreen = () => {
     0
   );
 
-  if (!currentOrderItems)
-    return (
-      <View style={defaultStyles.screenCenter}>
-        <Text>No orders yet.</Text>
-      </View>
-    );
+  const {
+    control,
+    formState: { errors, isValid },
+    handleSubmit,
+    reset,
+  } = useForm<TAddOrderSchema>({
+    resolver: yupResolver(addOrderSchema),
+    defaultValues: DEFAULT_VALUES,
+    mode: "onChange",
+  });
 
   const handleAddQuantity = (menuId: string) => {
     const menu = getMenu(menuId);
@@ -47,7 +65,7 @@ export const OrdersScreen = () => {
     }
 
     try {
-      addItemToCurrentOrder(menu);
+      addItemQuantityToCurrentOrder(menu);
       updateMenuQty(menuId, -1);
     } catch (error) {
       Alert.alert(`Error updatibg quantity: \n ${error}}`);
@@ -90,7 +108,7 @@ export const OrdersScreen = () => {
       );
     } else {
       try {
-        subtractItemFromCurrentOrder(menu);
+        subtractItemQuantityFromCurrentOrder(menu);
         updateMenuQty(menuId, 1);
       } catch (error) {
         Alert.alert(`Error updating quantity:\n${error}`);
@@ -98,12 +116,41 @@ export const OrdersScreen = () => {
     }
   };
 
+  const handleSubmitOrder = (formValues: TAddOrderSchema) => {
+    try {
+      addOrderToHistory({ ...formValues, items: currentOrderItems });
+      reset();
+      Alert.alert(`Order created successfully`);
+    } catch (error) {
+      Alert.alert(`Error in adding order: \n ${error}`);
+    }
+  };
+
+  if (!currentOrderItems.length)
+    return (
+      <View style={defaultStyles.screenCenter}>
+        <Text>No orders yet.</Text>
+      </View>
+    );
+
   return (
     <>
       <View style={[defaultStyles.screen, defaultStyles.p16]}>
         <View style={defaultStyles.gap24}>
           <View style={defaultStyles.gap4}>
-            <TextInput label="Customer's Name" />
+            <Controller
+              control={control}
+              name="customerName"
+              render={({ field }) => (
+                <TextInput
+                  label="Name"
+                  errorMessage={errors?.customerName?.message}
+                  placeholder="Enter your customer's name"
+                  {...field}
+                  onChangeText={(text) => field.onChange(text)}
+                />
+              )}
+            />
           </View>
           <View
             style={[
@@ -206,7 +253,11 @@ export const OrdersScreen = () => {
           <Text style={textStyles.textBold18}>Total</Text>
           <Text style={textStyles.textBold18}>₱ {totalAmount}</Text>
         </View>
-        <FilledButton text="Order" />
+        <FilledButton
+          disabled={!currentOrderItems.length || !isValid}
+          text="Order"
+          onPress={handleSubmit(handleSubmitOrder)}
+        />
       </View>
     </>
   );

@@ -14,18 +14,18 @@ export const OrderHistoryDetailsScreen = ({
   route,
 }: NativeStackScreenProps<OrderNavigatorParamList, "OrderHistoryDetails">) => {
   const id = route.params.id;
-  const { getOrder } = useOrderStore();
+  const { getOrderDetails } = useOrderStore();
 
-  const order = getOrder(id);
+  const orderDetails = getOrderDetails(id);
 
-  if (!order)
+  if (!orderDetails)
     return (
       <View style={defaultStyles.screenCenter}>
         <Text>Cannot retrieve the data</Text>
       </View>
     );
 
-  const { customerName, items, timestamp } = order;
+  const { customerName, items, timestamp } = orderDetails;
   const totalAmount = items.reduce(
     (acc: number, item: OrderedItem) => acc + item.price * item.quantity,
     0

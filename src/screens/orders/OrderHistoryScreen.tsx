@@ -17,10 +17,10 @@ export const OrderHistoryScreen = ({
   const { data, isLoading, error } = useOrders();
 
   useEffect(() => {
-    if (data && data.length > 0) {
+    if (!orderHistory.length && data && data.length > 0) {
       setOrderHistory(data);
     }
-  }, [data, setOrderHistory]);
+  }, [data, setOrderHistory, orderHistory.length]);
 
   const sortedOrders = useMemo(
     () =>
@@ -28,7 +28,7 @@ export const OrderHistoryScreen = ({
         (a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
       ),
-    [orderHistory]
+    []
   );
 
   if (isLoading)

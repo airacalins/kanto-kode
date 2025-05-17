@@ -17,7 +17,7 @@ export const MenusScreen = ({
   navigation,
 }: NativeStackScreenProps<MenuNavigatorParamList, "Menus">) => {
   const { menus, setMenus, updateMenuQty } = useMenuStore();
-  const { addItemQuanityToCurrentOrder: addItemToCurrentOrder } =
+  const { addItemQuantityToCurrentOrder: addItemToCurrentOrder } =
     useOrderStore();
   const { data, isLoading, error } = useMenus();
 

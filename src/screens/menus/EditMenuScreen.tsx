@@ -158,9 +158,7 @@ export const EditMenuScreen = ({
         <FilledButton
           text="Save"
           disabled={!isValid}
-          onPress={handleSubmit(handleSave, (errors) =>
-            console.log(JSON.stringify(errors, null, 2))
-          )}
+          onPress={handleSubmit(handleSave)}
         />
       </View>
     </KeyboardAvoidingView>

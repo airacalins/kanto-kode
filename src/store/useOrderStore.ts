@@ -8,12 +8,12 @@ type OrderStore = {
   currentOrderItems: OrderedItem[];
 
   // Order history methods
-  getOrder: (id: string) => Order | undefined;
+  getOrderDetails: (id: string) => Order | undefined;
   setOrderHistory: (orders: Order[]) => void;
   addOrderToHistory: (order: Omit<Order, "id" | "timestamp">) => void;
 
   // Current order methods
-  addItemQuanityToCurrentOrder: (menu: Menu) => void;
+  addItemQuantityToCurrentOrder: (menu: Menu) => void;
   subtractItemQuantityFromCurrentOrder: (menu: Menu) => void;
   removeItemFromCurrentOrder: (menuId: string) => void;
   clearCurrentOrder: () => void;
@@ -23,7 +23,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
   orderHistory: [],
   currentOrderItems: [],
 
-  getOrder: (id) => get().orderHistory.find((order) => order.id === id),
+  getOrderDetails: (id) => get().orderHistory.find((order) => order.id === id),
   setOrderHistory: (orders) => set({ orderHistory: orders }),
 
   addOrderToHistory: (order) =>
@@ -39,7 +39,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       currentOrderItems: [],
     })),
 
-  addItemQuanityToCurrentOrder: (menu: Menu) => {
+  addItemQuantityToCurrentOrder: (menu: Menu) => {
     const items = get().currentOrderItems;
     const index = items.findIndex((item) => item.menuId === menu.id);
 
